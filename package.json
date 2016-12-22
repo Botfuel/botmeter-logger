@@ -1,0 +1,22 @@
+{
+  "name": "botmeter-logger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "botmeterLogger.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Botfuel/botmeter-logger.git"
+  },
+  "author": "Oscar Roche",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Botfuel/botmeter-logger/issues"
+  },
+  "homepage": "https://github.com/Botfuel/botmeter-logger#readme",
+  "dependencies": {
+    "request": "^2.79.0"
+  }
+}
