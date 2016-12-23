@@ -5,7 +5,6 @@ var request = require('request');
 function botmeterLoggerBotbuilder (url) {
   var that = this;
   that.incomingMessages = {};
-  that.botmeterUrl = url;
 
   that.receive = function (body, next) {
     that.incomingMessages[body.address.id] = body.text;
@@ -13,10 +12,10 @@ function botmeterLoggerBotbuilder (url) {
   };
 
   that.send = function (response, next) {
-    makeDocument(that.incomingMessages[response.address.id],response,next);
+    logDocument(that.incomingMessages[response.address.id],response,next);
   };
 
-  function makeDocument(body, response, next) {
+  function logDocument(body, response, next) {
     var doc = {
       "bot_version": response.address.bot.id,
       "channel": response.address.channelId,
@@ -28,7 +27,7 @@ function botmeterLoggerBotbuilder (url) {
       "responses": [response.text]
     };
     var messageId = response.address.id;
-    indexDocument(doc, function (e, d){
+    indexDocument(doc, url, function (e, d){
       if (e) {
         console.log(e);
         delete(that.incomingMessages[messageId]);
@@ -40,26 +39,10 @@ function botmeterLoggerBotbuilder (url) {
     });
     next();
   };
-
-  function indexDocument (document, cb) {
-    const requestData = {
-      uri: that.botmeterUrl,
-      method: 'POST',
-      json: document
-    };
-    request(requestData , function (error, response, body) {
-      if(error) {
-        cb(error, null);
-      } else {
-        cb(null, body);
-      }
-    });
-  }
 }
 
 function botmeterLoggerFacebook(url) {
   var that = this;
-  that.botmeterUrl = url;
 
   that.logDocument = function (body, response) {
     var doc = {
@@ -70,7 +53,7 @@ function botmeterLoggerFacebook(url) {
       "body_type": "text",
       "responses": [response.message.text]
     };
-    indexDocument(doc, function (e, d){
+    indexDocument(doc, url, function (e, d){
     if (e) {
       console.log(e);
     };
@@ -79,22 +62,21 @@ function botmeterLoggerFacebook(url) {
     }
   });  
   }
+};
 
-  function indexDocument (document, cb) {
-    const requestData = {
-      uri: that.botmeterUrl,
-      method: 'POST',
-      json: document
-    };
-    request(requestData , function (error, response, body) {
-      if(error) {
-        cb(error,null);
-      } else {
-        cb(null,body);
-      }
-    });
-  }
-
+function indexDocument (document, url, cb) {
+  const requestData = {
+    uri: url,
+    method: 'POST',
+    json: document
+  };
+  request(requestData , function (error, response, body) {
+    if(error) {
+      cb(error,null);
+    } else {
+      cb(null,body);
+    }
+  });
 };
 
 module.exports = function(url) {
