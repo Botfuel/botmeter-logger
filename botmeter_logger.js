@@ -2,7 +2,7 @@
 
 var request = require('request');
 
-function botmeterLoggerBotbuilder (url) {
+function BotmeterLoggerBotbuilder (url) {
   var that = this;
   that.incomingMessages = {};
 
@@ -41,7 +41,7 @@ function botmeterLoggerBotbuilder (url) {
   };
 }
 
-function botmeterLoggerFacebook(url) {
+function BotmeterLoggerFacebook(url) {
   var that = this;
 
   that.logDocument = function (body, response) {
@@ -81,7 +81,7 @@ function indexDocument (document, url, cb) {
 
 module.exports = function(url) {
   return {
-    botbuilder: new botmeterLoggerBotbuilder(url),
-    facebook: new botmeterLoggerFacebook(url)
+    botbuilder: new BotmeterLoggerBotbuilder(url),
+    facebook: new BotmeterLoggerFacebook(url)
   }
 };
