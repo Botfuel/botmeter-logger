@@ -81,10 +81,82 @@ var BotmeterLoggerFacebook = function (url) {
 
 };
 
+var BotmeterLoggerBotfuel = function (url) {
+  var that = this;
+
+  that.logDocument = function (id, automaton, res, data, type, intent, confidence, sentiment, conversation_id, cb) {
+    var i, len, ref, response, responses, sentence, user, userToIndex, doc;
+    responses = [];
+    ref = data.responses;
+    len = ref.length;
+    for (i = 0; i < len; i += 1) {
+      response = ref[i];
+      if (response.fb !== null) {
+        responses.push(JSON.stringify(response));
+      } else if (response.smooch !== null) {
+        responses.push(JSON.stringify(response));
+      } else {
+        responses.push(response);
+      }
+    }
+    user = res.message.user;
+    if (user) {
+      userToIndex = {
+        name: user.name
+      };
+      if (user.first_name !== null) {
+        userToIndex.first_name = user.first_name;
+      }
+      if (user.last_name !== null) {
+        userToIndex.last_name = user.last_name;
+      }
+      if (user.profile_pic !== null) {
+        userToIndex.profile_pic = user.profile_pic;
+      }
+    } else {
+      userToIndex = {};
+    }
+    sentence = res.match[0];
+    doc = {
+      index: this.index,
+      type: 'message',
+      body: {
+        bot_version: automaton.version,
+        channel: automaton.channel,
+        conversation_id: conversation_id,
+        timestamp: Date.now(),
+        user_id: id,
+        user: userToIndex,
+        body: sentence,
+        body_type: type,
+        responses: responses,
+        state_in: data.state_in,
+        state_out: data.state_out,
+        intent: {
+          name: intent,
+          score: confidence
+        },
+        tags: [],
+        sentiment: sentiment,
+        language: automaton.locale,
+        context: []
+      }
+    };
+    indexDocument(doc, url, function (e, d) {
+      if (e) {
+        cb(e, null);
+      } else {
+        cb(null, d);
+      }
+    });
+  };
+};
+
 module.exports = function (url) {
   return {
     botbuilder: new BotmeterLoggerBotbuilder(url),
-    facebook: new BotmeterLoggerFacebook(url)
+    facebook: new BotmeterLoggerFacebook(url),
+    botfuel: new BotfuelLoggerFacebook(url)
   };
 };
 
