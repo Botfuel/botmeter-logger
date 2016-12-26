@@ -156,7 +156,7 @@ module.exports = function (url) {
   return {
     botbuilder: new BotmeterLoggerBotbuilder(url),
     facebook: new BotmeterLoggerFacebook(url),
-    botfuel: new BotmeterLoggerFacebook(url)
+    botfuel: new BotfuelLoggerFacebook(url)
   };
 };
 
