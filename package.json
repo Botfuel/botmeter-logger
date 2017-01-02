@@ -4,11 +4,12 @@
     "main": "index.js",
     "author": "sysadmin@botfuel.io",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
         "lint": "jslint --exclude node_modules '**/*.js'"
     },
     "dependencies": {
-        "jslint": "^0.10.3",
         "request": "^2.79.0"
+    },
+    "devDependencies": {
+        "jslint": "^0.10.3"
     }
 }
