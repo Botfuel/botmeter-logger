@@ -14,8 +14,11 @@ var indexDocument = function (document, url, cb) {
     if (error) {
       cb(error, null);
     } else {
-      // TODO: handle the case of non 200
-      cb(null, body);
+      if (response.statusCode !== 200) {
+        cb(body, null); // body contains the error message
+      } else {
+        cb(null, body);
+      }
     }
   });
 };
@@ -35,17 +38,11 @@ var BotmeterLoggerBotbuilder = function (url) {
       "body_type": "text",
       "responses": [response.text]
     };
-    var messageId = response.address.id;
     indexDocument(doc, url, function (e, d) {
       if (e) {
-        LOGGER.error(e)
-        delete (that.incomingMessages[messageId]);
-      }
-      if (d) {
-        delete (that.incomingMessages[messageId]);
+        LOGGER.error(e);
       }
     });
-    next();
   };
 
   that.receive = function (body, next) {
@@ -54,7 +51,10 @@ var BotmeterLoggerBotbuilder = function (url) {
   };
 
   that.send = function (response, next) {
-    that.logDocument(that.incomingMessages[response.address.id], response, next);
+    var messageId = response.address.id;
+    that.logDocument(that.incomingMessages[messageId], response, next);
+    delete (that.incomingMessages[messageId]);
+    next();
   };
 };
 
@@ -85,12 +85,9 @@ var BotmeterLoggerBotfuel = function (url) {
   var that = this;
 
   that.logDocument = function (id, automaton, res, data, type, intent, confidence, sentiment, conversation_id, cb) {
-    var i, len, ref, response, responses, sentence, user, userToIndex, doc;
-    responses = [];
-    ref = data.responses;
-    len = ref.length;
-    for (i = 0; i < len; i += 1) {
-      response = ref[i];
+    var responses = [];
+    for (var i = 0; i < data.responses.length; i += 1) {
+      var response = data.responses[i];
       if (response.fb !== null) {
         responses.push(JSON.stringify(response));
       } else if (response.smooch !== null) {
@@ -99,11 +96,10 @@ var BotmeterLoggerBotfuel = function (url) {
         responses.push(response);
       }
     }
-    user = res.message.user;
+    var user = res.message.user;
+    var userToIndex = {};
     if (user) {
-      userToIndex = {
-        name: user.name
-      };
+      userToIndex.name = user.name
       if (user.first_name !== null) {
         userToIndex.first_name = user.first_name;
       }
@@ -113,11 +109,9 @@ var BotmeterLoggerBotfuel = function (url) {
       if (user.profile_pic !== null) {
         userToIndex.profile_pic = user.profile_pic;
       }
-    } else {
-      userToIndex = {};
     }
-    sentence = res.match[0];
-    doc = {
+    var sentence = res.match[0];
+    var doc = {
         bot_version: automaton.version,
         channel: automaton.channel,
         conversation_id: conversation_id,
