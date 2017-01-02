@@ -1,24 +1,14 @@
 {
-  "name": "@botfuel/botmeter-logger",
-  "version": "1.1.1",
-  "description": "",
-  "main": "botmeterLogger.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "jslint --exclude node_modules '**/*.js'"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Botfuel/botmeter-logger.git"
-  },
-  "author": "Oscar Roche",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Botfuel/botmeter-logger/issues"
-  },
-  "homepage": "https://github.com/Botfuel/botmeter-logger#readme",
-  "dependencies": {
-    "jslint": "^0.10.3",
-    "request": "^2.79.0"
-  }
+    "name": "@botfuel/botmeter-logger",
+    "version": "1.1.1",
+    "main": "index.js",
+    "author": "sysadmin@botfuel.io",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "lint": "jslint --exclude node_modules '**/*.js'"
+    },
+    "dependencies": {
+        "jslint": "^0.10.3",
+        "request": "^2.79.0"
+    }
 }
