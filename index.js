@@ -14,7 +14,7 @@ var indexDocument = function (document, url, cb) {
     if (error) {
       cb(error, null);
     } else {
-      if (response.statusCode !== 200) {
+      if (response.statusCode >= 300) {
         cb(body, null); // body contains the error message
       } else {
         cb(null, body);
