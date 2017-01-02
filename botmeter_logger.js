@@ -84,7 +84,7 @@ var BotmeterLoggerFacebook = function (url) {
 var BotmeterLoggerBotfuel = function (url) {
   var that = this;
 
-  that.logDocument = function (id, automaton, res, data, type, intent, confidence, sentiment, conversation_id, cb) {
+  that.log = function (id, automaton, res, data, type, intent, confidence, sentiment, conversation_id, cb) {
     var i, len, ref, response, responses, sentence, user, userToIndex, doc;
     responses = [];
     ref = data.responses;
@@ -118,9 +118,6 @@ var BotmeterLoggerBotfuel = function (url) {
     }
     sentence = res.match[0];
     doc = {
-      index: this.index,
-      type: 'message',
-      body: {
         bot_version: automaton.version,
         channel: automaton.channel,
         conversation_id: conversation_id,
@@ -140,7 +137,6 @@ var BotmeterLoggerBotfuel = function (url) {
         sentiment: sentiment,
         language: automaton.locale,
         context: []
-      }
     };
     indexDocument(doc, url, function (e, d) {
       if (e) {
@@ -159,4 +155,3 @@ module.exports = function (url) {
     botfuel: new BotfuelLoggerFacebook(url)
   };
 };
-
