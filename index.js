@@ -1,6 +1,8 @@
 'use strict';
 
 var request = require('request');
+var Log4js = require('log4js');
+var LOGGER = Log4js.getLogger("BotmeterLogger");
 
 var indexDocument = function (document, url, cb) {
   var requestData = {
@@ -8,15 +10,14 @@ var indexDocument = function (document, url, cb) {
     method: 'POST',
     json: document
   };
-  /*jslint unparam: true */
   request(requestData, function (error, response, body) {
     if (error) {
+      LOGGER.error("error logging");
       cb(error, null);
     } else {
       cb(null, body);
     }
   });
-  /*jslint unparam: false */
 };
 
 var BotmeterLoggerBotbuilder = function (url) {
