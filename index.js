@@ -12,9 +12,9 @@ var indexDocument = function (document, url, cb) {
   };
   request(requestData, function (error, response, body) {
     if (error) {
-      LOGGER.error("error logging");
       cb(error, null);
     } else {
+      // TODO: handle the case of non 200
       cb(null, body);
     }
   });
@@ -38,11 +38,10 @@ var BotmeterLoggerBotbuilder = function (url) {
     var messageId = response.address.id;
     indexDocument(doc, url, function (e, d) {
       if (e) {
-        console.log(e);
+        LOGGER.error(e)
         delete (that.incomingMessages[messageId]);
       }
       if (d) {
-        console.log(d);
         delete (that.incomingMessages[messageId]);
       }
     });
@@ -85,7 +84,7 @@ var BotmeterLoggerFacebook = function (url) {
 var BotmeterLoggerBotfuel = function (url) {
   var that = this;
 
-  that.log = function (id, automaton, res, data, type, intent, confidence, sentiment, conversation_id, cb) {
+  that.logDocument = function (id, automaton, res, data, type, intent, confidence, sentiment, conversation_id, cb) {
     var i, len, ref, response, responses, sentence, user, userToIndex, doc;
     responses = [];
     ref = data.responses;
