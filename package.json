@@ -1,6 +1,6 @@
 {
   "name": "@botfuel/botmeter-logger",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "index.js",
   "author": "sysadmin@botfuel.io",
   "scripts": {
