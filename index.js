@@ -88,9 +88,9 @@ var BotmeterLoggerBotfuel = function (url) {
     var responses = [];
     for (var i = 0; i < data.responses.length; i += 1) {
       var response = data.responses[i];
-      if (response.fb !== null) {
+      if (response.fb !== undefined) {
         responses.push(JSON.stringify(response));
-      } else if (response.smooch !== null) {
+      } else if (response.smooch !== undefined) {
         responses.push(JSON.stringify(response));
       } else {
         responses.push(response);
