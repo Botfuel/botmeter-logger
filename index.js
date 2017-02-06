@@ -1,3 +1,4 @@
+/*jslint node: true */
 'use strict';
 
 var request = require('request');
@@ -99,7 +100,7 @@ var BotmeterLoggerBotfuel = function (url) {
     var user = res.message.user;
     var userToIndex = {};
     if (user) {
-      userToIndex.name = user.name
+      userToIndex.name = user.name;
       if (user.first_name !== null) {
         userToIndex.first_name = user.first_name;
       }
@@ -142,10 +143,11 @@ var BotmeterLoggerBotfuel = function (url) {
   };
 };
 
-module.exports = function (url) {
+module.exports = function (url, userKey) {
+  var fullUrl = url + "?" + userKey;
   return {
-    botbuilder: new BotmeterLoggerBotbuilder(url),
-    facebook: new BotmeterLoggerFacebook(url),
-    botfuel: new BotmeterLoggerBotfuel(url)
+    botbuilder: new BotmeterLoggerBotbuilder(fullUrl),
+    facebook: new BotmeterLoggerFacebook(fullUrl),
+    botfuel: new BotmeterLoggerBotfuel(fullUrl)
   };
 };
