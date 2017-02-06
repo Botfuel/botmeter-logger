@@ -23,8 +23,9 @@ var indexDocument = function (document, url, cb) {
   });
 };
 
-var BotmeterLoggerBotbuilder = function (url) {
+var BotmeterLoggerBotbuilder = function (url, userKey) {
   var that = this;
+  var fullUrl = url + "?" + userKey;
   that.incomingMessages = {};
 
   that.logDocument = function (body, response, next) {
@@ -38,7 +39,7 @@ var BotmeterLoggerBotbuilder = function (url) {
       "body_type": "text",
       "responses": [response.text]
     };
-    indexDocument(doc, url, function (e, d) {
+    indexDocument(doc, fullUrl, function (e, d) {
       if (e) {
         LOGGER.error(e);
       }
@@ -58,8 +59,9 @@ var BotmeterLoggerBotbuilder = function (url) {
   };
 };
 
-var BotmeterLoggerFacebook = function (url) {
+var BotmeterLoggerFacebook = function (url, userKey) {
   var that = this;
+  var fullUrl = url + "?" + userKey;
 
   that.logDocument = function (body, response, cb) {
     var doc = {
@@ -70,7 +72,7 @@ var BotmeterLoggerFacebook = function (url) {
       "body_type": "text",
       "responses": [response.message.text]
     };
-    indexDocument(doc, url, function (e, d) {
+    indexDocument(doc, fullUrl, function (e, d) {
       if (e) {
         cb(e, null);
       } else {
@@ -81,8 +83,9 @@ var BotmeterLoggerFacebook = function (url) {
 
 };
 
-var BotmeterLoggerBotfuel = function (url) {
+var BotmeterLoggerBotfuel = function (url, userKey) {
   var that = this;
+  var fullUrl = url + "?" + userKey;
 
   that.logDocument = function (id, automaton, res, data, type, intent, confidence, sentiment, conversation_id, cb) {
     var responses = [];
@@ -132,7 +135,7 @@ var BotmeterLoggerBotfuel = function (url) {
         language: automaton.locale,
         context: []
     };
-    indexDocument(doc, url, function (e, d) {
+    indexDocument(doc, fullUrl, function (e, d) {
       if (e) {
         cb(e, null);
       } else {
@@ -142,10 +145,10 @@ var BotmeterLoggerBotfuel = function (url) {
   };
 };
 
-module.exports = function (url) {
+module.exports = function (url, userKey) {
   return {
-    botbuilder: new BotmeterLoggerBotbuilder(url),
-    facebook: new BotmeterLoggerFacebook(url),
-    botfuel: new BotmeterLoggerBotfuel(url)
+    botbuilder: new BotmeterLoggerBotbuilder(url, userKey),
+    facebook: new BotmeterLoggerFacebook(url, userKey),
+    botfuel: new BotmeterLoggerBotfuel(url, userKey)
   };
 };
