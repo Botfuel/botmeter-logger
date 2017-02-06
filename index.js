@@ -24,9 +24,8 @@ var indexDocument = function (document, url, cb) {
   });
 };
 
-var BotmeterLoggerBotbuilder = function (url, userKey) {
+var BotmeterLoggerBotbuilder = function (url) {
   var that = this;
-  var fullUrl = url + "?" + userKey;
   that.incomingMessages = {};
 
   that.logDocument = function (body, response, next) {
@@ -40,7 +39,7 @@ var BotmeterLoggerBotbuilder = function (url, userKey) {
       "body_type": "text",
       "responses": [response.text]
     };
-    indexDocument(doc, fullUrl, function (e, d) {
+    indexDocument(doc, url, function (e, d) {
       if (e) {
         LOGGER.error(e);
       }
@@ -60,9 +59,8 @@ var BotmeterLoggerBotbuilder = function (url, userKey) {
   };
 };
 
-var BotmeterLoggerFacebook = function (url, userKey) {
+var BotmeterLoggerFacebook = function (url) {
   var that = this;
-  var fullUrl = url + "?" + userKey;
 
   that.logDocument = function (body, response, cb) {
     var doc = {
@@ -73,7 +71,7 @@ var BotmeterLoggerFacebook = function (url, userKey) {
       "body_type": "text",
       "responses": [response.message.text]
     };
-    indexDocument(doc, fullUrl, function (e, d) {
+    indexDocument(doc, url, function (e, d) {
       if (e) {
         cb(e, null);
       } else {
@@ -84,9 +82,8 @@ var BotmeterLoggerFacebook = function (url, userKey) {
 
 };
 
-var BotmeterLoggerBotfuel = function (url, userKey) {
+var BotmeterLoggerBotfuel = function (url) {
   var that = this;
-  var fullUrl = url + "?" + userKey;
 
   that.logDocument = function (id, automaton, res, data, type, intent, confidence, sentiment, conversation_id, cb) {
     var responses = [];
@@ -136,7 +133,7 @@ var BotmeterLoggerBotfuel = function (url, userKey) {
         language: automaton.locale,
         context: []
     };
-    indexDocument(doc, fullUrl, function (e, d) {
+    indexDocument(doc, url, function (e, d) {
       if (e) {
         cb(e, null);
       } else {
@@ -147,9 +144,10 @@ var BotmeterLoggerBotfuel = function (url, userKey) {
 };
 
 module.exports = function (url, userKey) {
+  var fullUrl = url + "?" + userKey;
   return {
-    botbuilder: new BotmeterLoggerBotbuilder(url, userKey),
-    facebook: new BotmeterLoggerFacebook(url, userKey),
-    botfuel: new BotmeterLoggerBotfuel(url, userKey)
+    botbuilder: new BotmeterLoggerBotbuilder(fullUrl),
+    facebook: new BotmeterLoggerFacebook(fullUrl),
+    botfuel: new BotmeterLoggerBotfuel(fullUrl)
   };
 };
