@@ -1,3 +1,4 @@
+/*jslint node: true */
 'use strict';
 
 var request = require('request');
@@ -102,7 +103,7 @@ var BotmeterLoggerBotfuel = function (url, userKey) {
     var user = res.message.user;
     var userToIndex = {};
     if (user) {
-      userToIndex.name = user.name
+      userToIndex.name = user.name;
       if (user.first_name !== null) {
         userToIndex.first_name = user.first_name;
       }
