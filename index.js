@@ -144,7 +144,7 @@ var BotmeterLoggerBotfuel = function (url) {
 };
 
 module.exports = function (url, userKey) {
-  var fullUrl = url + "?" + userKey;
+  var fullUrl = url + "?user_key=" + userKey;
   return {
     botbuilder: new BotmeterLoggerBotbuilder(fullUrl),
     facebook: new BotmeterLoggerFacebook(fullUrl),
