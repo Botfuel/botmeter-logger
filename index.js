@@ -58,12 +58,12 @@ var BotmeterLoggerBotbuilder = function (url) {
     };
 };
 
-var BotmeterLoggerFacebook = function (url) {
+var BotmeterLoggerMessenger = function (url) {
     var that = this;
 
     that.logDocument = function (body, response, cb) {
         var doc = {
-            "channel": "facebook",
+            "channel": "messenger",
             "user_id": response.recipient.id,
             "body": body,
             "body_type": "text",
@@ -143,7 +143,7 @@ module.exports = function (url, userKey) {
     var fullUrl = url + "?user_key=" + userKey;
     return {
         botbuilder: new BotmeterLoggerBotbuilder(fullUrl),
-        facebook: new BotmeterLoggerFacebook(fullUrl),
+        messenger: new BotmeterLoggerMessenger(fullUrl),
         botfuel: new BotmeterLoggerBotfuel(fullUrl)
     };
 };
