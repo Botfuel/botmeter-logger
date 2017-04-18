@@ -82,7 +82,7 @@ var BotmeterLoggerMessenger = function (url) {
 var BotmeterLoggerBotfuel = function (url) {
     var that = this;
 
-    that.logDocument = function (id, automaton, res, data, type, intent, confidence, sentiment, conversation_id, cb) {
+    that.logDocument = function (id, automaton, res, data, type, intent, confidence, conversation_id, cb) {
         var responses = [];
         for (var i = 0; i < data.responses.length; i += 1) {
             var response = data.responses[i];
@@ -125,7 +125,6 @@ var BotmeterLoggerBotfuel = function (url) {
                 score: confidence
             },
             tags: [],
-            sentiment: sentiment,
             language: automaton.locale,
             context: []
         };
