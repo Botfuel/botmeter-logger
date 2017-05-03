@@ -22,7 +22,7 @@ describe('BotmeterLoggerBotfuel', () => {
         name: 'john doe',
         first_name: 'john',
         last_name: 'doe',
-        profile_pic: 'pic',
+        profile_pic: 'pic of john doe',
       },
       state_in: 'in',
       state_out: 'out',
@@ -38,7 +38,7 @@ describe('BotmeterLoggerBotfuel', () => {
           name: 'john doe',
           first_name: 'john',
           last_name: 'doe',
-          profile_pic: 'pic',
+          profile_pic: 'pic of john doe',
         },
       },
     };
