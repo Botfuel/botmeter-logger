@@ -1,4 +1,7 @@
 const BotmeterLogger = require('./botmeter_logger');
+const log4js = require('log4js');
+
+const logger = log4js.getLogger('BotmeterLoggerBotbuilder');
 
 class BotmeterLoggerBotbuilder extends BotmeterLogger {
   constructor(url) {
@@ -6,7 +9,7 @@ class BotmeterLoggerBotbuilder extends BotmeterLogger {
     this.incomingMessages = {};
   }
 
-  logDocument(body, response, cb) {
+  logDocument(body, response, next) {
     const doc = {
       bot_version: response.address.bot.id,
       channel: response.address.channelId,
@@ -16,7 +19,9 @@ class BotmeterLoggerBotbuilder extends BotmeterLogger {
       body_type: 'text',
       responses: [response.text],
     };
-    this.indexDocument(doc, cb);
+    this.indexDocument(doc, (e) => {
+      logger.debug(e);
+    });
   }
 
   receive(body, next) {
@@ -26,7 +31,7 @@ class BotmeterLoggerBotbuilder extends BotmeterLogger {
 
   send(response, next) {
     const messageId = response.address.id;
-    this.logDocument(this.incomingMessages[messageId], response);
+    this.logDocument(this.incomingMessages[messageId], response, next);
     delete (this.incomingMessages[messageId]);
     next();
   }
