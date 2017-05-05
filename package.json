@@ -1,12 +1,12 @@
 {
   "name": "@botfuel/botmeter-logger",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "A logger for Botmeter",
   "main": "index.js",
   "author": "sysadmin@botfuel.io",
   "scripts": {
     "style": "./node_modules/.bin/eslint **/*.js",
-    "test" : "mocha"
+    "test": "mocha"
   },
   "dependencies": {
     "log4js": "^0.6.36",
