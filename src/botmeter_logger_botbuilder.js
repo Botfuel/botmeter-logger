@@ -7,9 +7,13 @@ class BotmeterLoggerBotbuilder extends BotmeterLogger {
   constructor(url) {
     super(url);
     this.incomingMessages = {};
+
+    this.logDocument = this.logDocument.bind(this);
+    this.receive = this.receive.bind(this);
+    this.send = this.send.bind(this);
   }
 
-  logDocument(body, response, next) {
+  logDocument(body, response) {
     const doc = {
       bot_version: response.address.bot.id,
       channel: response.address.channelId,
@@ -31,7 +35,7 @@ class BotmeterLoggerBotbuilder extends BotmeterLogger {
 
   send(response, next) {
     const messageId = response.address.id;
-    this.logDocument(this.incomingMessages[messageId], response, next);
+    this.logDocument(this.incomingMessages[messageId], response);
     delete (this.incomingMessages[messageId]);
     next();
   }
