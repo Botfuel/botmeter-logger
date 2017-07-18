@@ -1,14 +1,19 @@
-const request = require('request');
+import request from 'request';
+import { BOTMETER_API } from './config';
 
 class BotmeterLogger {
-  constructor(url) {
-    this.url = url;
+  constructor({ appId, appKey }) {
+    this.headers = {
+      'App-Id': appId,
+      'App-Key': appKey,
+    };
   }
 
   indexDocument(document, cb) {
     const requestData = {
-      uri: this.url,
+      uri: BOTMETER_API,
       method: 'POST',
+      headers: this.headers,
       json: document,
     };
     request(requestData, (error, response, body) => {
