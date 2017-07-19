@@ -1,13 +1,12 @@
 {
   "env": {
-    "mocha": true
+    "node": true
   },
-  "extends": "airbnb-base",
-  "plugins": [
-    "import",
-    "mocha"
-  ],
+  "plugins": ["node", "babel"],
+  "extends": ["eslint:recommended", "airbnb"],
+  "parserOptions": { "ecmaVersion": 8 },
   "rules": {
-    "mocha/no-exclusive-tests": "error"
+    "jsx-a11y/href-no-hash": "off",
+    "import/order": ["error"]
   }
 }

@@ -4,8 +4,8 @@ const log4js = require('log4js');
 const logger = log4js.getLogger('BotmeterLoggerBotbuilder');
 
 class BotmeterLoggerBotbuilder extends BotmeterLogger {
-  constructor(url) {
-    super(url);
+  constructor(auth) {
+    super(auth);
     this.incomingMessages = {};
 
     this.logDocument = this.logDocument.bind(this);
