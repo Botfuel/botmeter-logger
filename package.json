@@ -1,5 +1,5 @@
 {
-  "name": "@botfuel/botmeter-logger",
+  "name": "botmeter-logger",
   "version": "1.9.0",
   "description": "A logger for Botmeter",
   "main": "index.js",
