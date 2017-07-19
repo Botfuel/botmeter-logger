@@ -15,7 +15,7 @@ npm install --save botmeter-logger
 ```
 
 Environment variables:
-- `PROXY_HOST`: Botfuel proxy host (default to: `https://api.botfuel.io`).
+- `BOTFUEL_PROXY_HOST`: Botfuel proxy host (default to: `https://api.botfuel.io`).
 
 ## How to use
 
