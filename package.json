@@ -1,9 +1,9 @@
 {
   "name": "botmeter-logger",
   "version": "1.9.1",
-  "description": "A logger for Botmeter",
+  "description": "A Botmeter logger wrapper for Node.js",
   "main": "index.js",
-  "author": "sysadmin@botfuel.io",
+  "author": "Botfuel",
   "scripts": {
     "style": "eslint src",
     "test": "mocha",
