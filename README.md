@@ -23,4 +23,29 @@ const botmeter = new BotmeterLogger({
   APP_ID: 'id',
   APP_KEY: 'key',
 });
+
+const document = {
+  bot_version: '0.0.2',
+  timestamp: 1491475013000,
+  channel: 'Webchat',
+  user_id: 'JohnDoe',
+  user: {
+    first_name: 'John',
+    last_name: 'Doe',
+  },
+  body: 'je ne suis vraiment pas content',
+  body_type: 'text',
+  responses: ['Hi !', 'How are you ?'],
+  state_in: 'Root',
+  state_out: 'Root',
+  intent: {
+    name: 'Greetings',
+    score: 0.8,
+  },
+  language: 'fr',
+};
+
+botmeter.indexDocument(document, function(error, body) {
+  ...
+});
 ```
