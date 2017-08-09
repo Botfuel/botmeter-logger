@@ -17,7 +17,7 @@ npm install --save botmeter-logger
 ## How to use
 
 ```node.js
-BotmeterLogger = require('botmeter-logger');
+const BotmeterLogger = require('botmeter-logger');
 
 const botmeter = new BotmeterLogger({
   APP_ID: 'id',
