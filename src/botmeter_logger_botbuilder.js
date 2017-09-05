@@ -36,7 +36,7 @@ class BotmeterLoggerBotbuilder extends BotmeterLogger {
   send(response, next) {
     const messageId = response.address.id;
     this.logDocument(this.incomingMessages[messageId], response);
-    delete (this.incomingMessages[messageId]);
+    delete this.incomingMessages[messageId];
     next();
   }
 }
