@@ -23,9 +23,9 @@ There are 3 ways you can use botmeter-logger:
 - botbuilder
 
 
-### With Generic
+### Using the API
 
-```node.js
+```javascript
 const BotmeterLogger = require('botmeter-logger');
 
 const genericLogger = new BotmeterLogger({
@@ -62,7 +62,19 @@ genericLogger.indexDocument(document, function(error, body) {
 
 ### With Messenger
 
-```node.js
+```javascript
+// Messenger bot response format
+{
+  recipient: {
+    id: "recipientId"
+  },
+  message: {
+    text: "hello, world!"
+  }
+}
+```
+
+```javascript
 const BotmeterLogger = require('botmeter-logger');
 const request = require('request');
 
@@ -71,14 +83,17 @@ const messengerLogger = new BotmeterLogger({
   appKey: 'key',
 }).messenger;
 
-const response = {
+// User message
+const requestBody = 'Hello';
+
+// POST bot reponse to facebook
+request({
   uri: 'https://graph.facebook.com/v2.6/me/messages',
   qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
   method: 'POST',
+  // Messenger bot response
   json: responseJson
-};
-
-request(response, () => {
+}, () => {
     // The user message and bot response(s) must be logged in the same document
     messengerLogger.logDocument(requestBody, responseJson, (e, r) => {
         if (e) {
@@ -94,7 +109,7 @@ request(response, () => {
 
 We provide you with a middleware you can easily plug to Microsoft bot builder:
 
-```node.js
+```javascript
 const BotmeterLogger = require('botmeter-logger');
 const builder = require('botbuilder');
 const restify = require('restify');
