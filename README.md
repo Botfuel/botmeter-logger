@@ -16,13 +16,22 @@ npm install --save botmeter-logger
 
 ## How to use
 
+There are 3 ways you can use botmeter-logger:
+
+- generic
+- messenger
+- botbuilder
+
+
+### With Generic
+
 ```node.js
 const BotmeterLogger = require('botmeter-logger');
 
-const botmeter = new BotmeterLogger({
-  APP_ID: 'id',
-  APP_KEY: 'key',
-});
+const genericLogger = new BotmeterLogger({
+  appId: 'id',
+  appKey: 'key',
+}).generic;
 
 const document = {
   bot_version: '0.0.2',
@@ -45,7 +54,71 @@ const document = {
   language: 'fr',
 };
 
-botmeter.indexDocument(document, function(error, body) {
+genericLogger.indexDocument(document, function(error, body) {
+  // Body will equal 'ok' if logging is successful
   ...
 });
+```
+
+### With Messenger
+
+```node.js
+const BotmeterLogger = require('botmeter-logger');
+const request = require('request');
+
+const messengerLogger = new BotmeterLogger({
+  appId: 'id',
+  appKey: 'key',
+}).messenger;
+
+const response = {
+  uri: 'https://graph.facebook.com/v2.6/me/messages',
+  qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+  method: 'POST',
+  json: responseJson
+};
+
+request(response, () => {
+    // The user message and bot response(s) must be logged in the same document
+    messengerLogger.logDocument(requestBody, responseJson, (e, r) => {
+        if (e) {
+          console.log('BOTMETER ERROR: ', e);
+        } else {
+          console.log('BOTMETER LOGGING: ', r);
+        }
+    })
+});
+```
+
+### With Bot builder
+
+We provide you with a middleware you can easily plug to Microsoft bot builder:
+
+```node.js
+const BotmeterLogger = require('botmeter-logger');
+const builder = require('botbuilder');
+const restify = require('restify');
+
+const server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, function () {
+  console.log('%s listening to %s', server.name, server.url);
+});
+
+const builderLogger = new BotmeterLogger({
+  appId: 'id',
+  appKey: 'key',
+}).botbuilder;
+
+const connector = new builder.ChatConnector({
+  appId: process.env.APP_ID,
+  appPassword: process.env.APP_PASSWORD
+});
+
+const bot = new builder.UniversalBot(connector);
+
+server.post('/api/messages', connector.listen());
+
+bot.use(builderLogger);
+
+bot.dialog('/', (session) => session.send("Hello World"));
 ```
