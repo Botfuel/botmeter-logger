@@ -10,7 +10,9 @@
     "prepublish": "npm run compile",
     "compile": "babel src --out-dir build"
   },
-  "files": ["build"],
+  "files": [
+    "build"
+  ],
   "dependencies": {
     "log4js": "^0.6.36",
     "request": "^2.79.0",

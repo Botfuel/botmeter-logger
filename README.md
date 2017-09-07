@@ -62,12 +62,7 @@ genericLogger.indexDocument(document, function(error, body) {
 
 ### With Messenger
 
-Log the message inside the POST request callback made when the bot replies (the user message and bot response(s) must be logged in the same document) (see right pane).
-
-<a type="button" target="_blank" class="button" href="https://github.com/Botfuel/sample-bot-messenger">
-  <i style="padding-right: 6px;" class="fa fa-github fa-lg"></i>
-  See our sample bot
-</a>
+Log the message inside the POST request callback made when the bot replies (the user message and bot response(s) must be logged in the same document).
 
 ```javascript
 const BotmeterLogger = require('botmeter-logger');
@@ -114,8 +109,6 @@ request({
 ### With Bot builder
 
 We provide a middleware that you can easily plug to Microsoft bot builder (see right pane).
-
-<a type="button" target="_blank" class="button" href="https://github.com/Botfuel/sample-bot-botbuilder"><i style="padding-right: 6px;" class="fa fa-github fa-lg"></i> See our sample bot</a>
 
 ```javascript
 const BotmeterLogger = require('botmeter-logger');
