@@ -64,7 +64,10 @@ genericLogger.indexDocument(document, function(error, body) {
 
 Log the message inside the POST request callback made when the bot replies (the user message and bot response(s) must be logged in the same document) (see right pane).
 
-<a type="button" target="_blank" class="button"           href="https://github.com/Botfuel/sample-bot-messenger"><i style="padding-right: 6px;" class="fa fa-github fa-lg"></i> See our sample bot</a>
+<a type="button" target="_blank" class="button" href="https://github.com/Botfuel/sample-bot-messenger">
+  <i style="padding-right: 6px;" class="fa fa-github fa-lg"></i>
+  See our sample bot
+</a>
 
 ```javascript
 const BotmeterLogger = require('botmeter-logger');
