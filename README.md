@@ -34,7 +34,7 @@ const genericLogger = new BotmeterLogger({
 }).generic;
 
 const document = {
-  bot_version: '0.0.2',
+  bot_version: '1.0.2',
   timestamp: 1491475013000,
   channel: 'Webchat',
   user_id: 'JohnDoe',
@@ -42,7 +42,7 @@ const document = {
     first_name: 'John',
     last_name: 'Doe',
   },
-  body: 'je ne suis vraiment pas content',
+  body: 'Hello',
   body_type: 'text',
   responses: ['Hi !', 'How are you ?'],
   state_in: 'Root',
@@ -51,7 +51,7 @@ const document = {
     name: 'Greetings',
     score: 0.8,
   },
-  language: 'fr',
+  language: 'en',
 };
 
 genericLogger.indexDocument(document, function(error, body) {
@@ -62,78 +62,85 @@ genericLogger.indexDocument(document, function(error, body) {
 
 ### With Messenger
 
-```javascript
-// Messenger bot response format
-{
-  recipient: {
-    id: "recipientId"
-  },
-  message: {
-    text: "hello, world!"
-  }
-}
-```
+Log the message inside the POST request callback made when the bot replies (the user message and bot response(s) must be logged in the same document).
 
 ```javascript
 const BotmeterLogger = require('botmeter-logger');
 const request = require('request');
 
 const messengerLogger = new BotmeterLogger({
-  appId: 'id',
-  appKey: 'key',
+  appId: '<APP_ID>',
+  appKey: '<APP_KEY>',
 }).messenger;
 
 // User message
 const requestBody = 'Hello';
+
+// Bot response
+const responseJson = {
+    recipient: {
+      id: senderId,
+    },
+    message: {
+      text: 'Hello World',
+    },
+  };
+
 
 // POST bot reponse to facebook
 request({
   uri: 'https://graph.facebook.com/v2.6/me/messages',
   qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
   method: 'POST',
-  // Messenger bot response
   json: responseJson
 }, () => {
     // The user message and bot response(s) must be logged in the same document
     messengerLogger.logDocument(requestBody, responseJson, (e, r) => {
         if (e) {
-          console.log('BOTMETER ERROR: ', e);
+          console.log('Botmeter error: ', e);
         } else {
-          console.log('BOTMETER LOGGING: ', r);
+          console.log('Botmeter logging: ', r);
         }
     })
 });
 ```
 
+
 ### With Bot builder
 
-We provide you with a middleware you can easily plug to Microsoft bot builder:
+We provide a middleware that you can easily plug to Microsoft bot builder (see right pane).
 
 ```javascript
 const BotmeterLogger = require('botmeter-logger');
 const builder = require('botbuilder');
 const restify = require('restify');
 
+// Create a server
 const server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function () {
+server.listen(process.env.PORT || 3978, function () {
   console.log('%s listening to %s', server.name, server.url);
 });
 
-const builderLogger = new BotmeterLogger({
-  appId: 'id',
-  appKey: 'key',
-}).botbuilder;
-
+// Instantiate the Bot builder connector and bot
 const connector = new builder.ChatConnector({
-  appId: process.env.APP_ID,
-  appPassword: process.env.APP_PASSWORD
+  // can be left undefined when testing with emulator
+  appId: process.env.MICROSOFT_APP_ID,
+  // can be left undefined when testing with emulator
+  appPassword: process.env.MICROSOFT_APP_PASSWORD,
 });
 
 const bot = new builder.UniversalBot(connector);
 
+// Instantiate Bot builder logger
+const builderLogger = new BotmeterLogger({
+  appId: '<APP_ID>',
+  appKey: '<APP_KEY>',
+}).botbuilder;
+
+// Plug it
 server.post('/api/messages', connector.listen());
 
 bot.use(builderLogger);
 
-bot.dialog('/', (session) => session.send("Hello World"));
+bot.dialog('/', (session) => session.send('Hello World'));
 ```
