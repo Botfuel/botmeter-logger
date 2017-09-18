@@ -44,7 +44,6 @@ class BotmeterLoggerBotfuel extends BotmeterLogger {
         score: confidence,
       },
       tags: [],
-      language: automaton.locale,
       context: [],
     };
     this.indexDocument(doc, cb);
