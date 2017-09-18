@@ -14,7 +14,6 @@ describe('BotmeterLoggerBotfuel', () => {
       body: 'user text',
       body_type: 'text',
       responses: ['bot response 1', 'bot response 2'],
-      language: 'fr',
       context: [],
       tags: [],
       intent: { name: 'I1', score: 0.8 },
