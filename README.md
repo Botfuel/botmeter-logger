@@ -50,8 +50,7 @@ const document = {
   intent: {
     name: 'Greetings',
     score: 0.8,
-  },
-  language: 'en',
+  }
 };
 
 genericLogger.indexDocument(document, function(error, body) {
