@@ -143,3 +143,7 @@ bot.use(builderLogger);
 
 bot.dialog('/', (session) => session.send('Hello World'));
 ```
+
+## License
+
+See the [LICENSE](LICENSE.md) file.
