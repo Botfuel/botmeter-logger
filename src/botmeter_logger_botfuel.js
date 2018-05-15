@@ -5,12 +5,10 @@ class BotmeterLoggerBotfuel extends BotmeterLogger {
     const responses = [];
     for (let i = 0; i < data.responses.length; i += 1) {
       const response = data.responses[i];
-      if (response.fb !== undefined) {
-        responses.push(JSON.stringify(response));
-      } else if (response.smooch !== undefined) {
+      if (response.fb !== undefined || response.smooch !== undefined) {
         responses.push(JSON.stringify(response));
       } else {
-        responses.push(response);
+        responses.push(response.value ? response.value : response);
       }
     }
     const user = res.message.user;
